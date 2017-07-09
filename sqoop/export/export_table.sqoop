@@ -1,0 +1,9 @@
+##### Export data from HDFS to MySQL (each row is inserted in a separate insert statement)
+
+sqoop export \
+--connect jdbc:mysql://localhost/sqoop_db \
+--username sqoop \
+--password sqoop \
+--table export_cities \
+--export-dir sqoop_test/cities
+

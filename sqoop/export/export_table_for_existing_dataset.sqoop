@@ -1,0 +1,28 @@
+#### Initial export
+sqoop export \
+--connect jdbc:mysql://localhost/sqoop_db \
+--username sqoop \
+--password sqoop \
+--table export_update_cities \
+--export-dir sqoop_test/cities
+
+##### Export data from HDFS to MySQL (Update existing dataset)
+sqoop export \
+--connect jdbc:mysql://localhost/sqoop_db \
+--username sqoop \
+--password sqoop \
+--table export_update_cities \
+--export-dir sqoop_test/cities \
+--update-key id
+
+
+##### Export data from HDFS to MySQL (Updating or inserting at same time)
+sqoop export \
+--connect jdbc:mysql://localhost/sqoop_db \
+--username sqoop \
+--password sqoop \
+--table export_update_cities \
+--export-dir sqoop_test/cities \
+--update-key id \
+--update-mode allowinsert
+

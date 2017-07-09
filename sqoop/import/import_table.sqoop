@@ -1,0 +1,12 @@
+######## Import cities table from MySQL to HDFS
+
+sqoop import \
+--connect jdbc:mysql://localhost/sqoop_db \
+--username sqoop \
+--password sqoop \
+--table cities \
+--num-mappers 1 \
+--target-dir /user/cloudera/sqoop_test/cities-sample \
+--where "1=1" \
+--map-column-java id=Long
+

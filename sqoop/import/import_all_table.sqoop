@@ -1,0 +1,9 @@
+####### Import all tables (exclude cities,countries) from MySQL to HDFS
+
+sqoop import-all-tables \
+--connect jdbc:mysql://localhost/sqoop_db \ 
+--username sqoop \
+--password sqoop \
+--warehouse-dir /user/cloudera/sqoop_test/import-all-tables \ 
+--exclude-tables cities,countries 
+

@@ -1,0 +1,59 @@
+####### Incremental import from MySQL to HDFS (only new recors) 
+
+sqoop import \
+--connect jdbc:mysql://localhost/sqoop_db \
+--username sqoop \
+--password sqoop \
+--table visits \
+--incremental append \
+--check-column id \
+--last-value 1 \
+--target-dir /user/cloudera/sqoop_test/incremental-append-visits
+ 
+###### Incremental import from MySQL to HDFS (updated as well as new recors - append mode)
+
+sqoop import \
+--connect jdbc:mysql://localhost/sqoop_db \
+--username sqoop \
+--password sqoop \
+--table visits \
+--incremental lastmodified \
+--check-column last_update_date \
+--last-value "1980-05-22 01:01:01" \
+--append \
+--target-dir /user/cloudera/sqoop_test/incremental-lastmodified-visits 
+
+###### Incremental import from MySQL to HDFS (updated as well as new recors - merge mode)
+
+sqoop import \
+--connect jdbc:mysql://localhost/sqoop_db \
+--username sqoop \
+--password sqoop \
+--table visits \
+--incremental lastmodified \
+--check-column last_update_date \
+--last-value "2017-07-08 00:10:04" \
+--merge-key id \
+--target-dir /user/cloudera/sqoop_test/incremental-lastmodified-visits-merge
+
+####### Incremental import from MySQL to HDFS (Create JOB - This will remember the last value so we don't need to specify last value exiplicitly)
+
+sqoop job \
+--create visits \
+-- \
+import \
+--connect jdbc:mysql://localhost/sqoop_db \
+--username sqoop \
+--password sqoop \
+--table visits \
+--incremental lastmodified \
+--check-column last_update_date \
+--last-value "1997-05-22 01:01:01" \
+--merge-key id \
+--target-dir /user/cloudera/sqoop_test/incremental-lastmodified-visits-job
+
+####### Execute job
+
+sqoop job \
+--exec visits
+

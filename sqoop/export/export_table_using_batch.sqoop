@@ -1,0 +1,32 @@
+##### Export data from HDFS to MySQL (Using batch mode i.e. use of prepared statement with multiple sets of values)
+
+sqoop export \
+--connect jdbc:mysql://localhost/sqoop_db \
+--username sqoop \
+--password sqoop \
+--table export_using_batch_cities \
+--export-dir sqoop_test/cities \
+--batch
+
+##### Export data from HDFS to MySQL (multiple rows inside one single insert statement)
+
+sqoop export \
+-Dsqoop.export.records.per.statement=10 \
+--connect jdbc:mysql://localhost/sqoop_db \
+--username sqoop \
+--password sqoop \
+--table export_using_multiple_rows_cities \
+--export-dir sqoop_test/cities
+
+
+##### Export data from HDFS to MySQL (how many insert statements will be issued on the database prior to committing the transaction)
+
+sqoop export \
+-Dsqoop.export.statements.per.transaction=10 \
+--connect jdbc:mysql://localhost/sqoop_db \
+--username sqoop \
+--password sqoop \
+--table export_using_transaction_cities \
+--export-dir sqoop_test/cities
+
+

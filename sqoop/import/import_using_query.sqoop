@@ -1,0 +1,23 @@
+##### Import data using query instead of table
+
+sqoop import \
+--connect jdbc:mysql://localhost/sqoop_db \
+--username sqoop \
+--password sqoop \
+--query 'SELECT normcities.id as id, countries.country as country, normcities.city as city FROM normcities JOIN countries USING(country_id) WHERE $CONDITIONS' \
+--split-by id \
+--target-dir sqoop_test/cities-query
+
+
+##### Import data using query with boundary condition
+
+sqoop import \
+--connect jdbc:mysql://localhost/sqoop_db \
+--username sqoop \
+--password sqoop \
+--query 'SELECT normcities.id as id, countries.country as country, normcities.city as city FROM normcities JOIN countries USING(country_id) WHERE $CONDITIONS' \
+--split-by id \
+--target-dir sqoop_test/cities-query-bounday \
+--boundary-query "select min(id), max(id) from normcities" \
+--mapreduce-job-name normcities
+

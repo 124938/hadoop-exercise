@@ -1,0 +1,11 @@
+##### Export data from HDFS to MySQL (With all or nothing semantics)
+
+sqoop export \
+--connect jdbc:mysql://localhost/sqoop_db \
+--username sqoop \
+--password sqoop \
+--table export_all_nothing_cities \
+--export-dir sqoop_test/cities \
+--staging-table staging_cities \
+--clear-staging-table
+
