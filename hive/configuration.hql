@@ -28,6 +28,7 @@ hive
 ### Overide hive configuration/variable in current session
 set hiveconf:hive.enforce.bucketing=true;
 set hivevar:cob_date=09-jul-2017;
+set hive.cli.print.current.db=true;
 
 ### Print/Display all namespace related information
 set;
@@ -63,12 +64,12 @@ set hiveconf:yarn.nodemanager.address;
 ### Override configuration automatically using .hiverc file
 
 
-### Execute hive commands without entering into hive shell
+### Execute hive commands without entering into hive shell (Non interactive mode)
 hive -e 'SHOW DATABASES';
 hive -e 'SHOW TABLES';
 hive -e 'SELECT * FROM dummy';
 
-### Execute hive commands from file without entering into hive shell
+### Execute hive commands from file without entering into hive shell (from file)
 hive -f sample_script.hql;
 
 

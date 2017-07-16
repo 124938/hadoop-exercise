@@ -1,0 +1,6 @@
+20170715	INFO	localhost	101	Sample info message from localhost
+20170715	WARN	localhost 	101	Sample warning-1 message from localhost
+20170715	ERROR	localhost	101	Sample ERROR message from localhost
+20170715	WARN	localhost	101	Sample warning-2 message from localhost
+20170715	INFO	localhost	101	Sample info message from localhost
+20170715	INFO	localhost	101	Sample info message from localhost
