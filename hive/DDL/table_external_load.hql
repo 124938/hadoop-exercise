@@ -2,6 +2,8 @@
 CREATE DATABASE IF NOT EXISTS mydb;
 USE mydb;
 
+#################################### External table - START ##########################################
+
 #### Create External table (LOCATION is mandatory)
 CREATE EXTERNAL TABLE IF NOT EXISTS stocks (
 exch STRING,
@@ -17,6 +19,13 @@ price_adj_close FLOAT
 ROW FORMAT DELIMITED 
 FIELDS TERMINATED BY ','
 LOCATION '/user/cloudera/stocks';
+
+### Load data using local file
+LOAD DATA LOCAL INPATH '${env:HOME}/hive/stocks.csv'
+OVERWRITE INTO TABLE stocks;
+
+### Execute query
+select * from stocks where exch='NASDAQ' and symbol='AAPL';
 
 ### Describe stocks table
 describe formatted stocks;
@@ -66,4 +75,7 @@ Storage Desc Params:
 	serialization.format	,                   
 Time taken: 0.117 seconds, Fetched: 41 row(s)
 *************************************************************************************************/
+
+#################################### External table - END ##########################################
+
 

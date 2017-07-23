@@ -2,8 +2,10 @@
 CREATE DATABASE IF NOT EXISTS mydb;
 USE mydb;
 
-##################### Create External table (With partition) ######################
-CREATE EXTERNAL TABLE IF NOT EXISTS log_messages (
+#################################### External table (With Partition) - START ##########################################
+
+#### Create external table - with partition
+CREATE EXTERNAL TABLE IF NOT EXISTS log_messages_par (
 hms INT,
 severity STRING,
 server STRING,
@@ -12,6 +14,32 @@ message STRING)
 PARTITIONED BY (year INT, month INT, day INT)
 ROW FORMAT DELIMITED 
 FIELDS TERMINATED BY '\t';
+
+#### Add partition from HDFS location
+ALTER TABLE log_messages_par ADD IF NOT EXISTS
+PARTITION (year = 2017, month = 7, day = 15) LOCATION '/user/cloudera/data/log_message/2017/07/15'
+PARTITION (year = 2017, month = 7, day = 16) LOCATION '/user/cloudera/data/log_message/2017/07/16'
+PARTITION (year = 2017, month = 7, day = 17) LOCATION '/user/cloudera/data/log_message/2017/07/17';
+
+#### Execute query
+select * from log_messages_par;
+select * from log_messages_par where year=2017;
+select * from log_messages_par where year=2017 and month=7;
+select * from log_messages_par where year=2017 and month=7 and day=17;
+
+#### Show partitions
+show partitions log_messages_par;
+
+/********************************************************************************
+OK
+year=2017/month=7/day=15
+year=2017/month=7/day=16
+year=2017/month=7/day=17
+Time taken: 0.147 seconds, Fetched: 3 row(s)
+********************************************************************************/
+
+#### Describe table with all details
+describe formatted log_messages_par;
 
 /****************************************************************************************************
 OK
@@ -33,7 +61,7 @@ day                 	int
 # Detailed Table Information	 	 
 Database:           	mydb                	 
 Owner:              	cloudera            	 
-CreateTime:         	Sun Jul 16 06:33:04 PDT 2017	 
+CreateTime:         	Sun Jul 23 08:40:22 PDT 2017	 
 LastAccessTime:     	UNKNOWN             	 
 Protect Mode:       	None                	 
 Retention:          	0                   	 
@@ -41,7 +69,7 @@ Location:           	hdfs://quickstart.cloudera:8020/user/hive/warehouse/mydb.db
 Table Type:         	EXTERNAL_TABLE      	 
 Table Parameters:	 	 
 	EXTERNAL            	TRUE                
-	transient_lastDdlTime	1500211984          
+	transient_lastDdlTime	1500824422          
 	 	 
 # Storage Information	 	 
 SerDe Library:      	org.apache.hadoop.hive.serde2.lazy.LazySimpleSerDe	 
@@ -54,19 +82,9 @@ Sort Columns:       	[]
 Storage Desc Params:	 	 
 	field.delim         	\t                  
 	serialization.format	\t                  
-Time taken: 0.104 seconds, Fetched: 39 row(s)
+Time taken: 0.107 seconds, Fetched: 39 row(s)
 *****************************************************************************************************/
 
-#### Add partition from hdfs location
-ALTER TABLE log_messages 
-ADD PARTITION(year = 2017, month = 7, day = 15)
-LOCATION '/user/cloudera/data/log_message/2017/07/15';
+#################################### External table (With Partition) - END ##########################################
 
-#### Show partitions
-SHOW PARTITIONS log_messages;
 
-/********************************************************************************
-OK
-year=2017/month=7/day=15
-Time taken: 0.147 seconds, Fetched: 1 row(s)
-********************************************************************************/

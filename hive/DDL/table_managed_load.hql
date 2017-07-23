@@ -1,10 +1,12 @@
 #### Create database
 CREATE DATABASE IF NOT EXISTS mydb;
 
-### Use database
+#### Use database
 USE mydb;
 
-################## Create Managed table ########################
+#################################### Managed table - START ##########################################
+
+#### Create managed table
 CREATE TABLE IF NOT EXISTS mydb.employees (
 name STRING COMMENT 'Employee name',
 salary FLOAT COMMENT 'Employee salary',
@@ -14,8 +16,16 @@ address STRUCT<street:STRING, city:STRING, state:STRING, zip:INT> COMMENT 'Home 
 )
 COMMENT 'Description of the table';
 
+#### Load data from local file
+LOAD DATA LOCAL INPATH '/home/cloudera/hive/employees.txt'
+OVERWRITE INTO TABLE employees;
+
+#### Execute query
+select * from employees;
+select * from employees where name like '%CA%';
+
 #### Create table (by copying existing table structure)
-CREATE TABLE IF NOT EXISTS mydb.employees2
+CREATE TABLE IF NOT EXISTS mydb.employees_copy
 LIKE mydb.employees;
 
 #### Verify tables
@@ -58,4 +68,7 @@ Storage Desc Params:
 	serialization.format	1                   
 Time taken: 0.115 seconds, Fetched: 31 row(s)
 *****************************************************************************************/
+
+#################################### Managed table - END ##########################################
+
 
