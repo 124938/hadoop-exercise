@@ -1,0 +1,7 @@
+John Doe CA100000.0Mary SmithTodd JonesFederal Taxes.2State Taxes.05Insurance.11 Michigan Ave.ChicagoCA50600
+Mary Smith CA80000.0Bill KingFederal Taxes.2State Taxes.05Insurance.1100 Ontario St.ChicagoCA50601
+Todd Jones CA70000.0Federal Taxes.15State Taxes.03Insurance.1200 Chicago Ave.Oak ParkCA50700
+Bill King CA60000.0Federal Taxes.15State Taxes.03Insurance.1300 Obscure Dr.ObscuriaCA50100
+Boss Man CA200000.0John DoeFred FinanceFederal Taxes.3State Taxes.07Insurance.051 Pretentious Drive.ChicagoCA50500
+Fred Finance CA150000.0Stacy AccountantFederal Taxes.3State Taxes.07Insurance.052 Pretentious Drive.ChicagoCA50500
+Stacy Accountant CA60000.0Federal Taxes.15State Taxes.03Insurance.1300 Main St.NapervilleCA50563
