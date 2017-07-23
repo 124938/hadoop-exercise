@@ -1,0 +1,17 @@
+###### Import table as avro file
+sqoop import \
+--connect jdbc:mysql://localhost/sqoop_db \
+--username sqoop \
+--password sqoop \
+--table cities \
+--num-mappers 1 \
+--target-dir /user/cloudera/sqoop_test/cities-avro \
+--as-avrodatafile
+
+###### Extract avro schema from avro file
+avro-tools getschema hdfs://quickstart.cloudera/user/cloudera/sqoop_test/cities-avro/part-m-00000.avro > cities.avsc
+
+###### Copy avro schema to HDFS
+hadoop fs -mkdir /user/cloudera/avro_schema
+hadoop fs -put cities.avsc /user/cloudera/avro_schema
+
