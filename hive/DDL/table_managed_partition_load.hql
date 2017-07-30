@@ -138,3 +138,67 @@ Time taken: 0.115 seconds, Fetched: 36 row(s)
 
 #################################### Managed table (With Partition) - END ##########################################
 
+
+#################################### Queries (HQL) - START ##########################################
+
+#### Select simple data type from table
+select name, salary from employees_par;
+.
+#### Select ARRAY data type from table
+select name, subordinates from employees_par;
+select name, subordinates[0] from employees_par;
+
+#### Select MAP data type from table
+select name, deductions from employees_par;
+select name, deductions["State Taxes"] from employees_par;
+
+#### Select STRUCT data type from table
+select name, address.city from employees_par;
+
+#### Compute column values using Numeric Functions
+select upper(name), salary, deductions["Federal Taxes"], round(salary * (1-deductions["Federal Taxes"])) 
+from employees_par;
+
+#### Compute data using Aggregate Functions
+SET hive.map.aggr=true;
+select count(*), avg(salary) from employees_par;
+
+#### Table generating functions (one to many lies)
+select explode(subordinates) from employees_par;
+
+#### Usage of Limit clause
+select upper(name), salary, deductions["Federal Taxes"], round(salary * (1-deductions["Federal Taxes"])) 
+from employees_par LIMIT 3;
+
+#### Usage of Case statement
+select name, salary,
+case
+when salary < 70000 then 'low'
+when salary > 70000 and salary <=810000 then 'middle'
+when salary > 81000 and salary <=95000 then 'high'
+else 'very high' 
+end as salary_level
+from employees_par;
+
+#### Usage of Where clause with nested selected statement
+FROM (
+select upper(name) as name, salary, deductions["Federal Taxes"], round(salary * (1-deductions["Federal Taxes"])) as salary_without_ft 
+from employees_par
+) emp
+select emp.name, emp.salary_without_ft 
+where emp.salary_without_ft > 20000; 
+
+#### Usage of Where clause with nested selected statement
+select emp.name, emp.salary_without_ft 
+from 
+(
+select upper(name) as name, salary, deductions["Federal Taxes"], round(salary * (1-deductions["Federal Taxes"])) as salary_without_ft 
+from employees_par
+) emp
+where emp.salary_without_ft > 70000;
+
+#### Usage of like clause
+select name, address.city from employees_par where address.street like '%Ave%';
+ 
+#################################### Queries (HQL) - START ##########################################
+
